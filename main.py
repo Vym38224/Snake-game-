@@ -3,12 +3,13 @@ import time
 import random
 
 
-
-screen = Screen()
-screen.bgcolor("grey")
-screen.title("Snake game")
-screen.setup(width=600, height=600)
-screen.tracer(False)
+turtle = Turtle()
+turtle.hideturtle()
+screen1 = Screen()
+screen1.bgpic("bg1.png")
+screen1.title("Snake game")
+screen1.setup(width=600, height=600)
+screen1.tracer(False)
 
 apple = Turtle("circle")
 apple.color("red")
@@ -57,32 +58,39 @@ def move_right():
         head.direction = "right"
 
 # WASD
-screen.listen()
-screen.onkeypress(move_up, "w")
-screen.onkeypress(move_down, "s")
-screen.onkeypress(move_left, "a")
-screen.onkeypress(move_right, "d")
+screen1.listen()
+screen1.onkeypress(move_up, "w")
+screen1.onkeypress(move_down, "s")
+screen1.onkeypress(move_left, "a")
+screen1.onkeypress(move_right, "d")
 
 body_parts = []
 score = 0
 highest_score = 0
 score_sign = Turtle("square")
 score_sign.speed(0)
-score_sign.color("gold")
+score_sign.color("red")
 score_sign.penup()
 score_sign.hideturtle()
 score_sign.goto(0, 265)
 score_sign.write("Score: 0  Max.Score: 0", align="center", font=("Times New Roman", 20))
+score_sign2 = Turtle("square")
+score_sign2.speed(0)
+score_sign2.color("red")
+score_sign2.penup()
+score_sign2.hideturtle()
+score_sign2.goto(0, 195)
+
 
 
 # Hlavní cyklus
 while True:
-    screen.update()
 
     # Hlava mimo zonu
     if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < - 290:
         time.sleep(2)
-        head.goto(0, 0)
+        head.goto(0, -7)
+        apple.goto(0, 900)
         head.direction = "stop"
 
         # Bodyparts == 0
@@ -92,9 +100,11 @@ while True:
         # Reset score
         score = 0
 
-
         score_sign.clear()
         score_sign.write(f"Skóre: {score}  Nejvyšší skóre: {highest_score}", align="center", font=("Times New Roman", 20))
+        score_sign2.clear()
+        score_sign2.write("YOU LOSE", align="center", font=("Times New Roman", 20))
+        import end
 
     # Hlava a jablko
     if head.distance(apple) < 20:
@@ -116,7 +126,7 @@ while True:
             highest_score = score
         
         score_sign.clear()
-        score_sign.write(f"Skóre: {score}  Nejvyšší skóre: {highest_score}", align="center", font=("Arial", 20))
+        score_sign.write(f"Skóre: {score}  Nejvyšší skóre: {highest_score}", align="center", font=("Times New Roman", 20))
 
     for index in range(len(body_parts) - 1, 0, -1):
         x = body_parts[index - 1].xcor()
@@ -135,6 +145,9 @@ while True:
             time.sleep(2)
             head.goto(0, 0)
             head.direction = "stop"
+            score_sign2.clear()
+            score_sign2.write("YOU LOSE", align="center", font=("Times New Roman", 20))
+            import end
             
             # Skryjeme části těla
             for one_body_part in body_parts:
@@ -147,7 +160,19 @@ while True:
             score = 0
 
             score_sign.clear()
-            score_sign.write(f"Skóre: {score}  Nejvyšší skóre: {highest_score}", align="center", font=("Arial", 20))
-
+            score_sign.write(f"Skóre: {score}  Nejvyšší skóre: {highest_score}", align="center", font=("Times New Roman", 20))
+            
+    screen1.update()
     time.sleep(0.1)
-screen.exitonclick()
+screen1.exitonclick()
+    
+
+ 
+
+
+
+
+
+    
+
+
